@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesto</title>
+    <link rel="stylesheet" href="./pages/index.css">
+</head>
+
+<body class="body">
+    <div class="page">
+        <header class="header">
+            <img class="header__logo" src="./images/logo.svg" alt="Логотип">
+        </header>
+        <main class="content">
+            <section class="profile">
+                <div class="profile__content">
+                    <img class="profile__avatar" src="./images/Jacques_Yves_Cousteau.jpg" alt="Жак-Ив Кусто">
+                    <div class="profile__info">
+                        <div class="profile__edit">
+                            <h1 class="profile__title">Жак-Ив Кусто</h1>
+                            <button type="button" class="profile__symbol-edit"></button>
+                        </div>
+                        <p class="profile__subtitle">Исследователь океана</p>
+                    </div>
+                </div>
+                <button type="button" class="profile__add-button"></button>
+            </section>
+            <section class="elements">
+                <ul class="elements__list">
+                    <template id="element-card">
+                        <li class="elements__list-item">
+                            <button type="button" class="elements__trash"></button>
+                            <img class="elements__img">
+                            <div class="elements__description">
+                                <h2 class="elements__name"></h2>
+                                <button type="button" class="elements__heart"></button>
+                            </div>
+                        </li>
+                      </template>
+                </ul>
+            </section>
+        </main>
+        <div class="popup popup_edit-profile">
+            <div class="popup__content">
+                <button type="button" class="popup__close popup__close_edit-profile"></button>
+                <form class="popup__form popup__form_edit-profile" action="#" method="post" name="popup__form_edit-profile">
+                    <h2 class="popup__title">Редактировать профиль</h2>
+                    <input class="popup__field popup__field_type_name" type="text" name="popup-name">
+                    <input class="popup__field popup__field_type_about-me" type="text" name="popup-about-me">
+                    <button class="popup__save" type="submit">Сохранить</button>
+                </form>
+            </div>
+        </div>
+        <div class="popup popup_add-place">
+            <div class="popup__content">
+                <button type="button" class="popup__close popup__close_add-place"></button>
+                <form class="popup__form popup__form_add-place" action="#" method="post" name="popup__form_add-place">
+                    <h2 class="popup__title">Новое место</h2>
+                    <input class="popup__field popup__field_type_name-place" type="text" name="popup-name" placeholder="Название">
+                    <input class="popup__field popup__field_type_link" type="text" name="popup-about-me" placeholder="Ссылка на картинку">
+                    <button class="popup__save" type="submit">Создать</button>
+                </form>
+            </div>
+        </div>
+        <div class="popup popup_image">
+            <div class="popup__content">
+                <button type="button" class="popup__close popup__close_image"></button>
+                <img class="popup__image">
+                <p class="popup__signature"></p>
+            </div>
+        </div>
+        <footer class="footer">
+            <p class="footer__copyright">© 2023. Васильева Александра</p>
+        </footer>
+    </div>
+    <script src="./script/index.js"></script>
+</body>
+
+</html>
