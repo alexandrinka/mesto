@@ -66,12 +66,30 @@ for (let i = 0; i < cards.length; i++) {
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    closePopupEsc(popup);
+    closePopupOverlay(popup);
 }
 
 //ЗАКРЫТИЕ POPUP
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+}
+
+function closePopupOverlay(popup) {
+    popup.addEventListener("click", (evt) => {
+        if (evt.currentTarget === evt.target) {
+            closePopup(popup);
+        }
+    });
+}
+
+function closePopupEsc(popup){
+    document.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Escape') {
+            closePopup(popup);
+        }
+    });
 }
 
 const closeButtons = document.querySelectorAll('.popup__close');
@@ -87,6 +105,7 @@ const btnOpenPopupProfile = document.querySelector('.profile__symbol-edit');
 const popupProfile = document.querySelector('.popup_edit-profile');
 const fieldProfileName = document.querySelector('.popup__field_type_name');
 const fieldProfileAboutMe = document.querySelector('.popup__field_type_about-me');
+const btnSaveProfile = document.querySelector('.popup__btn-profile');
 const profileForm = document.forms['popup__form_edit-profile'];
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
@@ -100,22 +119,26 @@ const openPopupProfile = () => {
 const handleProfileFormSubmit = (event) => {
     event.preventDefault();
 
-    profileTitle.textContent = fieldProfileName.value;
-    profileSubtitle.textContent = fieldProfileAboutMe.value;
+    if (!btnSaveProfile.classList.contains('popup__btn_inactive')) {
+        profileTitle.textContent = fieldProfileName.value;
+        profileSubtitle.textContent = fieldProfileAboutMe.value;
 
-    closePopup(popupProfile);
+        closePopup(popupProfile);
+    }
 };
 
 btnOpenPopupProfile.addEventListener('click', openPopupProfile);
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 
+
 //POPUP-ДОБАВЛЕНИЕ МЕСТА
 
 const btnOpenPopupPlace = document.querySelector('.profile__add-button');
 const popupPlace = document.querySelector('.popup_add-place');
-const fiekdPlaceName = document.querySelector('.popup__field_type_name-place');
+const fieldPlaceName = document.querySelector('.popup__field_type_name-place');
 const fieldplaceLink = document.querySelector('.popup__field_type_link');
+const btnSavePlace = document.querySelector('.popup__btn-place');
 const placeForm = document.querySelector('.popup__form_add-place');
 const btnHeart = document.querySelector('.elements__heart');
 
@@ -126,18 +149,20 @@ const openPopupPlace = () => {
 const savePlace = (event) => {
     event.preventDefault();
 
-    const cardForCreate = {
-        name: fiekdPlaceName.value,
-        link: fieldplaceLink.value
-    };
+    if (!btnSavePlace.classList.contains('popup__btn_inactive')) {
+        const cardForCreate = {
+            name: fieldPlaceName.value,
+            link: fieldplaceLink.value
+        };
 
-    fiekdPlaceName.value = "";
-    fieldplaceLink.value = "";
+        fieldPlaceName.value = "";
+        fieldplaceLink.value = "";
 
-    const placeElement = createCard(cardForCreate);
-    list.prepend(placeElement);
+        const placeElement = createCard(cardForCreate);
+        list.prepend(placeElement);
 
-    closePopup(popupPlace);
+        closePopup(popupPlace);
+    }
 };
 
 btnOpenPopupPlace.addEventListener('click', openPopupPlace);
