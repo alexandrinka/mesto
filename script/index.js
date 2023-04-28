@@ -31,16 +31,17 @@ const list = document.querySelector('.elements__list');
 
 const placeTemplate = document.querySelector('#element-card').content;
 
+const popupOpenImage = document.querySelector('.popup_image');
+const popupImage = document.querySelector('.popup__image');
+const popupSignature = document.querySelector('.popup__signature');
+const popups = document.querySelectorAll('.popup');
+
 function createCard(item) {
     const placeElement = placeTemplate.querySelector('.elements__list-item').cloneNode(true);
     const cardImage = placeElement.querySelector('.elements__img');
     cardImage.src = item['link'];
     cardImage.alt = item['name'];
     placeElement.querySelector('.elements__name').textContent = item['name'];
-
-    const popupOpenImage = document.querySelector('.popup_image');
-    const popupImage = document.querySelector('.popup__image');
-    const popupSignature = document.querySelector('.popup__signature');
 
     placeElement.querySelector('.elements__heart').addEventListener('click', function (evt) {
         evt.target.classList.toggle('elements__heart_active');
@@ -66,38 +67,33 @@ for (let i = 0; i < cards.length; i++) {
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-    closePopupEsc(popup);
-    closePopupOverlay(popup);
+    document.addEventListener('keydown', closeByEscape);
 }
 
 //ЗАКРЫТИЕ POPUP
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closeByEscape);
 }
 
-function closePopupOverlay(popup) {
-    popup.addEventListener("click", (evt) => {
-        if (evt.currentTarget === evt.target) {
+function closeByEscape(evt) {
+    if (evt.key === 'Escape') {
+        const openedPopup = document.querySelector('.popup_opened');
+        closePopup(openedPopup);
+    }
+}
+
+popups.forEach((popup) => {
+    popup.addEventListener('mousedown', (evt) => {
+        if (evt.target.classList.contains('popup_opened')) {
             closePopup(popup);
         }
-    });
-}
-
-function closePopupEsc(popup){
-    document.addEventListener('keydown', function (evt) {
-        if (evt.key === 'Escape') {
+        if (evt.target.classList.contains('popup__close')) {
             closePopup(popup);
         }
-    });
-}
-
-const closeButtons = document.querySelectorAll('.popup__close');
-
-closeButtons.forEach((button) => {
-    const popup = button.closest('.popup');
-    button.addEventListener('click', () => closePopup(popup));
-});
+    })
+})
 
 //POPUP-РЕДАКТИРОВАНИЕ ПРОФИЛЯ
 
@@ -119,12 +115,10 @@ const openPopupProfile = () => {
 const handleProfileFormSubmit = (event) => {
     event.preventDefault();
 
-    if (!btnSaveProfile.classList.contains('popup__btn_inactive')) {
-        profileTitle.textContent = fieldProfileName.value;
-        profileSubtitle.textContent = fieldProfileAboutMe.value;
+    profileTitle.textContent = fieldProfileName.value;
+    profileSubtitle.textContent = fieldProfileAboutMe.value;
 
-        closePopup(popupProfile);
-    }
+    closePopup(popupProfile);
 };
 
 btnOpenPopupProfile.addEventListener('click', openPopupProfile);
@@ -138,7 +132,6 @@ const btnOpenPopupPlace = document.querySelector('.profile__add-button');
 const popupPlace = document.querySelector('.popup_add-place');
 const fieldPlaceName = document.querySelector('.popup__field_type_name-place');
 const fieldplaceLink = document.querySelector('.popup__field_type_link');
-const btnSavePlace = document.querySelector('.popup__btn-place');
 const placeForm = document.querySelector('.popup__form_add-place');
 const btnHeart = document.querySelector('.elements__heart');
 
@@ -149,20 +142,18 @@ const openPopupPlace = () => {
 const savePlace = (event) => {
     event.preventDefault();
 
-    if (!btnSavePlace.classList.contains('popup__btn_inactive')) {
-        const cardForCreate = {
-            name: fieldPlaceName.value,
-            link: fieldplaceLink.value
-        };
+    const cardForCreate = {
+        name: fieldPlaceName.value,
+        link: fieldplaceLink.value
+    };
 
-        fieldPlaceName.value = "";
-        fieldplaceLink.value = "";
+    event.target.reset();
 
-        const placeElement = createCard(cardForCreate);
-        list.prepend(placeElement);
+    const placeElement = createCard(cardForCreate);
+    list.prepend(placeElement);
 
-        closePopup(popupPlace);
-    }
+    closePopup(popupPlace);
+
 };
 
 btnOpenPopupPlace.addEventListener('click', openPopupPlace);
