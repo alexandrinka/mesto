@@ -43,9 +43,14 @@ const selectorsForm =
 
 //ГЕНЕРАЦИЯ КАРТОЧЕК
 
-cards.forEach((card_item) => {
-    const card = new Card(card_item, '#element-card');
+function createCard(item) {
+    const card = new Card(item, '#element-card');
     const cardElement = card.generateCard();
+    return cardElement;
+}
+
+cards.forEach((cardItem) => {
+    const cardElement = createCard(cardItem);
     list.append(cardElement);
 });
 
@@ -135,12 +140,8 @@ const savePlace = (event) => {
 
     event.target.reset();
 
-    const card = new Card(cardForCreate, '#element-card');
-    const cardElement = card.generateCard();
+    const cardElement = createCard(cardForCreate);
     list.prepend(cardElement);
-
-    // const placeElement = createCard(cardForCreate);
-    // list.prepend(placeElement);
 
     closePopup(popupPlace);
 
