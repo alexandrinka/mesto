@@ -1,4 +1,5 @@
-//ДОБАВЛЕНИЕ КАРТОЧЕК НА СТРАНИЦУ
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
 
 const cards = [
     {
@@ -28,40 +29,25 @@ const cards = [
 ];
 
 const list = document.querySelector('.elements__list');
-
-const placeTemplate = document.querySelector('#element-card').content;
-
-const popupOpenImage = document.querySelector('.popup_image');
-const popupImage = document.querySelector('.popup__image');
-const popupSignature = document.querySelector('.popup__signature');
 const popups = document.querySelectorAll('.popup');
 
-function createCard(item) {
-    const placeElement = placeTemplate.querySelector('.elements__list-item').cloneNode(true);
-    const cardImage = placeElement.querySelector('.elements__img');
-    cardImage.src = item['link'];
-    cardImage.alt = item['name'];
-    placeElement.querySelector('.elements__name').textContent = item['name'];
+const selectorsForm =
+{
+    formSelector: '.popup__form',
+    inputSelector: '.popup__field',
+    submitButtonSelector: '.popup__btn',
+    inactiveButtonClass: 'popup__btn_inactive',
+    inputErrorClass: 'popup__field_type_error',
+    errorClass: 'popup__field-error_active'
+};
 
-    placeElement.querySelector('.elements__heart').addEventListener('click', function (evt) {
-        evt.target.classList.toggle('elements__heart_active');
-    });
-    placeElement.querySelector('.elements__trash').addEventListener('click', function (evt) {
-        placeElement.remove();
-    });
-    cardImage.addEventListener('click', function (evt) {
-        openPopup(popupOpenImage);
-        popupImage.src = item['link'];
-        popupImage.alt = item['name'];
-        popupSignature.textContent = item['name'];
-    });
-    return placeElement;
-}
+//ГЕНЕРАЦИЯ КАРТОЧЕК
 
-for (let i = 0; i < cards.length; i++) {
-    const placeElement = createCard(cards[i]);
-    list.append(placeElement);
-}
+cards.forEach((card_item) => {
+    const card = new Card(card_item, '#element-card');
+    const cardElement = card.generateCard();
+    list.append(cardElement);
+});
 
 //ОТКРЫТИЕ POPUP
 
@@ -149,8 +135,12 @@ const savePlace = (event) => {
 
     event.target.reset();
 
-    const placeElement = createCard(cardForCreate);
-    list.prepend(placeElement);
+    const card = new Card(cardForCreate, '#element-card');
+    const cardElement = card.generateCard();
+    list.prepend(cardElement);
+
+    // const placeElement = createCard(cardForCreate);
+    // list.prepend(placeElement);
 
     closePopup(popupPlace);
 
@@ -159,3 +149,12 @@ const savePlace = (event) => {
 btnOpenPopupPlace.addEventListener('click', openPopupPlace);
 
 placeForm.addEventListener('submit', savePlace);
+
+
+//ВАЛИДАЦИЯ
+
+const formList = Array.from(document.querySelectorAll('.popup__form'));
+formList.forEach((formElement) => {
+    const validation = new FormValidator(selectorsForm, formElement);
+    validation.enableValidation();
+});
