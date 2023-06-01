@@ -56,7 +56,7 @@ cards.forEach((cardItem) => {
 
 //ОТКРЫТИЕ POPUP
 
-function openPopup(popup) {
+export function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closeByEscape);
 }
@@ -92,8 +92,7 @@ const btnOpenPopupProfile = document.querySelector('.profile__symbol-edit');
 const popupProfile = document.querySelector('.popup_edit-profile');
 const fieldProfileName = document.querySelector('.popup__field_type_name');
 const fieldProfileAboutMe = document.querySelector('.popup__field_type_about-me');
-const btnSaveProfile = document.querySelector('.popup__btn-profile');
-const profileForm = document.forms['popup__form_edit-profile'];
+const profileForm = document.forms["popup__form_edit-profile"];
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 
@@ -123,8 +122,7 @@ const btnOpenPopupPlace = document.querySelector('.profile__add-button');
 const popupPlace = document.querySelector('.popup_add-place');
 const fieldPlaceName = document.querySelector('.popup__field_type_name-place');
 const fieldplaceLink = document.querySelector('.popup__field_type_link');
-const placeForm = document.querySelector('.popup__form_add-place');
-const btnHeart = document.querySelector('.elements__heart');
+const placeForm = document.forms["popup__form_add-place"];
 
 const openPopupPlace = () => {
     openPopup(popupPlace);

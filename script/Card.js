@@ -1,3 +1,8 @@
+const popup = document.querySelector('.popup_image');
+const popupImage = document.querySelector('.popup__image');
+const popupSignature = document.querySelector('.popup__signature');
+import {openPopup} from './index.js';
+
 export class Card {
     constructor(cards, templateSelector) {
         this._name = cards.name;
@@ -16,7 +21,7 @@ export class Card {
         return cardElement;
     }
 
-    _setEventListeners(cardImage) {
+    _setEventListeners() {
         this._element.querySelector('.elements__trash').addEventListener('click', () => {
             this._element.remove();
         });
@@ -25,30 +30,23 @@ export class Card {
             evt.target.classList.toggle('elements__heart_active');
         });
 
-        cardImage.addEventListener('click', (evt) => {
-            const popup = document.querySelector('.popup_image');
-            popup.classList.add('popup_opened');
-            document.addEventListener('keydown', () => {
-                if (evt.key === 'Escape') {
-                    const openedPopup = document.querySelector('.popup_opened');
-                    closePopup(openedPopup);
-                }
-            });
-            document.querySelector('.popup__image').src = this._link;
-            document.querySelector('.popup__image').alt = this._name;
-            document.querySelector('.popup__signature').textContent = this._name;
+        this._cardImage.addEventListener('click', (evt) => {
+            openPopup(popup);
+            popupImage.src = this._link;
+            popupImage.alt = this._name;
+            popupSignature.textContent = this._name;            
         });
     }
 
     generateCard() {
         this._element = this._getTemplate();
-        const cardImage = this._element.querySelector(this._cardImage);
+        this._cardImage = this._element.querySelector('.elements__img');
 
-        cardImage.src = this._link;
-        cardImage.alt = this._name;
+        this._cardImage.src = this._link;
+        this._cardImage.alt = this._name;
         this._element.querySelector('.elements__name').textContent = this._name;
 
-        this._setEventListeners(cardImage);
+        this._setEventListeners()  ;
 
         return this._element;
     }
