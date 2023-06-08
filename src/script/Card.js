@@ -1,14 +1,10 @@
-const popup = document.querySelector('.popup_image');
-const popupImage = document.querySelector('.popup__image');
-const popupSignature = document.querySelector('.popup__signature');
-import {openPopup} from './index.js';
-
 export class Card {
-    constructor(cards, templateSelector) {
+    constructor(cards, templateSelector, handleCardClick) {
         this._name = cards.name;
         this._link = cards.link;
         this._templateSelector = templateSelector;
         this._cardImage = '.elements__img';
+        this._onOpenPopup = handleCardClick;
     }
 
     _getTemplate() {
@@ -30,11 +26,8 @@ export class Card {
             evt.target.classList.toggle('elements__heart_active');
         });
 
-        this._cardImage.addEventListener('click', (evt) => {
-            openPopup(popup);
-            popupImage.src = this._link;
-            popupImage.alt = this._name;
-            popupSignature.textContent = this._name;            
+        this._cardImage.addEventListener('click', () => {
+            this._onOpenPopup({ name: this._name, link: this._link });
         });
     }
 
@@ -46,7 +39,7 @@ export class Card {
         this._cardImage.alt = this._name;
         this._element.querySelector('.elements__name').textContent = this._name;
 
-        this._setEventListeners()  ;
+        this._setEventListeners();
 
         return this._element;
     }

@@ -5,18 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
-    <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body class="body">
     <div class="page">
         <header class="header">
-            <img class="header__logo" src="./images/logo.svg" alt="Логотип">
+            <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип">
         </header>
         <main class="content">
             <section class="profile">
                 <div class="profile__content">
-                    <img class="profile__avatar" src="./images/Jacques_Yves_Cousteau.jpg" alt="Жак-Ив Кусто">
+                    <img class="profile__avatar" src="<%=require('./images/Jacques_Yves_Cousteau.jpg')%>" alt="Жак-Ив Кусто">
                     <div class="profile__info">
                         <div class="profile__edit">
                             <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -85,9 +84,6 @@
             <p class="footer__copyright">© 2023. Васильева Александра</p>
         </footer>
     </div>
-    <script type="module" src="./script/index.js"></script>
-    <script type="module" src="./script/FormValidator.js"></script>
-    <script type="module" src="./script/Card.js"></script>
 </body>
 
 </html>
