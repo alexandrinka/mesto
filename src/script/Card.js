@@ -16,15 +16,21 @@ export class Card {
 
         return cardElement;
     }
+    
+    _handleDeleteCard = () => {
+        this._element.remove();
+        this._element = null;
+      };
+
+      _handleLikeClick = (evt) => {
+        evt.target.classList.toggle("elements__heart_active");
+      };
 
     _setEventListeners() {
-        this._element.querySelector('.elements__trash').addEventListener('click', () => {
-            this._element.remove();
-        });
+        this._element.querySelector(".elements__trash").addEventListener("click", this._handleDeleteCard);
 
-        this._element.querySelector('.elements__heart').addEventListener('click', function (evt) {
-            evt.target.classList.toggle('elements__heart_active');
-        });
+        this._likeButton = this._element.querySelector('.elements__heart');
+        this._likeButton.addEventListener("click", this._handleLikeClick);
 
         this._cardImage.addEventListener('click', () => {
             this._onOpenPopup({ name: this._name, link: this._link });

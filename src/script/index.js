@@ -16,6 +16,16 @@ import {
 
 import '../pages/index.css';
 
+const newSection = new Section(
+    {
+        cards,
+        renderer: (item) => {
+            newSection.addItem(createCard(item));
+        },
+    },
+    cardsGrid
+);
+
 
 const popupAddPlace = new PopupWithForm(".popup_add-place", addFormSubmit);
 const popupEditProfile = new PopupWithForm(".popup_edit-profile", editFormSubmit);
@@ -30,27 +40,20 @@ const popupEditValidation = new FormValidator(validationConfig, popupEdit);
 popupAddValidation.enableValidation();
 popupEditValidation.enableValidation();
 
-const addCard = (items) => {
-    const newCard = new Section(
-        {
-            items,
-            renderer: (item) => {
-                const card = new Card(item, "#element-card", () =>
-                    popupImageClass.open(item)
-                );
-                const cardElement = card.generateCard();
-                newCard.addItem(cardElement);
-            },
-        },
-        cardsGrid
-    );
-    newCard.renderCard();
+const addCard = () => {
+    newSection.renderCard();
 };
+
+function createCard(item) {
+    const card = new Card(item, "#element-card", () =>
+        popupImageClass.open(item)
+    );
+    return card.generateCard();
+}
 
 function addFormSubmit(evt, items) {
     evt.preventDefault();
-    addCard([{name: items[0], link: items[1]}]);
-    popupAddValidation.enableValidation();
+    newSection.addItem(createCard({ name: items.place_name, link: items.place_link }));
     popupAddPlace.close();
 }
 
@@ -62,12 +65,11 @@ function editFormSubmit(evt, items) {
 
 cardAddButton.addEventListener("click", () => {
     popupAddPlace.open();
-    popupAddValidation.enableValidation();
 });
 
 profileEditButton.addEventListener("click", () => {
-    popupEditProfile.open(userInfo.getUserInfo());
-    popupEditValidation.enableValidation();
+    popupEditProfile.open();
+    popupEditProfile.setInputValues(userInfo.getUserInfo());
 });
 
-addCard(cards);
+addCard();
