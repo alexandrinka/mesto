@@ -28,8 +28,11 @@ const newSection = new Section(
 
 
 const popupAddPlace = new PopupWithForm(".popup_add-place", addFormSubmit);
+popupAddPlace.setEventListeners();
 const popupEditProfile = new PopupWithForm(".popup_edit-profile", editFormSubmit);
+popupEditProfile.setEventListeners();
 const popupImageClass = new PopupWithImage(".popup_image");
+popupImageClass.setEventListeners();
 const userInfo = new UserInfo({
     nameProfileSelector: ".profile__title",
     infoProfileSelector: ".profile__subtitle",

@@ -22,10 +22,7 @@ export default class PopupWithForm extends Popup {
 
     setInputValues(fieldValues) {
         if (fieldValues != null) {
-            this._fieldList.forEach((input) => { 
-                if(input.name == "profile_name")  input.value = fieldValues.name;
-                if(input.name == "profile_info")  input.value = fieldValues.info;
-            });
+            this._fieldList.forEach(input => input.value = fieldValues[input.name]);
         }
     }
 

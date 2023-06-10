@@ -23,7 +23,7 @@ export class Card {
       };
 
       _handleLikeClick = (evt) => {
-        evt.target.classList.toggle("elements__heart_active");
+        this._likeButton.classList.toggle("elements__heart_active"); ;
       };
 
     _setEventListeners() {
