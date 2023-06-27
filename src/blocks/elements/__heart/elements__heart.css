@@ -4,6 +4,7 @@
     background: url('../../../images/heart.svg') no-repeat center;
     max-width: 22px;
     width: 100%;
+    height: 19px;
 }
 
 .elements__heart:hover {
