@@ -28,7 +28,7 @@ export class Card {
     }
 
     _handleDeleteCard = () => {
-        this._onOpenPopupDeleteCard(this._cardId, this._element);
+        this._onOpenPopupDeleteCard(this._cardId, this);
     };
 
     updateLike(data) {
@@ -37,6 +37,10 @@ export class Card {
         } else {
             this._addLike(data);
         }
+    }
+
+    deleteCard(){
+        this._element.remove();
     }
 
     _removeLike(data) {

@@ -16,7 +16,8 @@
             <section class="profile">
                 <div class="profile__content">
                     <div class="profile__image">
-                        <img class="profile__avatar" src="<%=require('./images/Jacques_Yves_Cousteau.jpg')%>" alt="Жак-Ив Кусто">
+                        <img class="profile__avatar" src="<%=require('./images/Jacques_Yves_Cousteau.jpg')%>"
+                            alt="Жак-Ив Кусто">
                     </div>
                     <div class="profile__info">
                         <div class="profile__edit">
@@ -33,7 +34,9 @@
                     <template id="element-card">
                         <li class="elements__list-item">
                             <button type="button" class="elements__trash"></button>
-                            <img class="elements__img">
+                            <div class="elements__container_img">
+                                <img class="elements__img">
+                            </div>
                             <div class="elements__description">
                                 <h2 class="elements__name"></h2>
                                 <div class="elements__like">
@@ -94,9 +97,9 @@
                 <form class="popup__form popup__form_update-avatar" action="#" method="post"
                     name="popup__form_update-avatar" novalidate>
                     <h2 class="popup__title">Обновить аватар</h2>
-                    <input class="popup__field popup__field_type_link" type="url" name="link" id="avatar-place"
+                    <input class="popup__field popup__field_type_link" type="url" name="link" id="avatar-image"
                         placeholder="Ссылка на картинку" required>
-                    <span class="popup__field-error link-place-error"></span>
+                    <span class="popup__field-error avatar-image-error"></span>
                     <button class="popup__btn popup__btn-place" type="submit">Сохранить</button>
                 </form>
             </div>

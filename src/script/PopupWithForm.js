@@ -18,7 +18,7 @@ export default class PopupWithForm extends Popup {
     }
 
     _onSubmitHandler = (evt) => {
-        this._onSubmit(evt, this._getInputValues(evt))
+        this._onSubmit(evt, this._getInputValues())
     };
 
     renderLoading(isLoading, buttonText = "Сохранение...") {

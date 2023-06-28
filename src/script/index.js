@@ -3,7 +3,7 @@ import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import Api from './Api.js';
 import PopupWithImage from "./PopupWithImage.js";
-import PopupDeleteCard from "./PopupDeleteCard.js";
+import PopupDeleteElement from "./PopupDeleteElement.js";
 import PopupWithForm from "./PopupWithForm.js";
 import Section from "./Section.js";
 import UserInfo from "./UserInfo.js";
@@ -11,6 +11,7 @@ import {
     validationConfig,
     popupEdit,
     popupAdd,
+    popupUpdateProfile,
     profileEditButton,
     cardAddButton,
     avatarImage,
@@ -33,8 +34,8 @@ popupEditProfile.setEventListeners();
 const popupUpdateAvatar = new PopupWithForm(".popup_update-avatar", updateAvatarForm);
 popupUpdateAvatar.setEventListeners();
 
-const popupDeleteCard = new PopupDeleteCard(".popup_delete-card", deleteCard);
-popupDeleteCard.setEventListeners();
+const PopupDeleteCard = new PopupDeleteElement(".popup_delete-card", deleteCard);
+PopupDeleteCard.setEventListeners();
 
 const popupImageClass = new PopupWithImage(".popup_image");
 popupImageClass.setEventListeners();
@@ -47,10 +48,12 @@ const userInfo = new UserInfo({
 
 const popupAddValidation = new FormValidator(validationConfig, popupAdd);
 const popupEditValidation = new FormValidator(validationConfig, popupEdit);
+const popupUpdateProfileValidation = new FormValidator(validationConfig, popupUpdateProfile);
 popupAddValidation.enableValidation();
 popupEditValidation.enableValidation();
+popupUpdateProfileValidation.enableValidation();
 
-const newSection = new Section(
+const cardsContainer = new Section(
     { renderer: (item) => createCard(item) },
     cardsGrid
 );
@@ -58,7 +61,7 @@ const newSection = new Section(
 Promise.all([api.getUserInfo(), api.getCards()])
     .then(([userData, cards]) => {
         userInfo.setUserInfo(userData);
-        newSection.renderCard(cards.reverse());
+        cardsContainer.renderCard(cards.reverse());
     })
     .catch((err) =>
         console.log(`Получение данных карточек и пользователя: ${err}`)
@@ -69,7 +72,7 @@ function createCard(item) {
         item,
         "#element-card",
         () => popupImageClass.open(item),
-        (cardId, card) => popupDeleteCard.open(cardId, card),
+        (cardId, card) => PopupDeleteCard.open(cardId, card),
         userInfo.getUserInfo().userId,
         likeCard
     );
@@ -81,7 +84,7 @@ function addFormSubmit(evt, items) {
     popupAddPlace.renderLoading(true);
     api.createCard(items)
         .then((data) => {
-            newSection.addItem(data);
+            cardsContainer.addItem(data);
             popupAddPlace.close();
         })
         .catch((err) => console.log(`Добавление карточки: ${err}`))
@@ -104,13 +107,13 @@ function editFormSubmit(evt, items) {
         });
 }
 
-function deleteCard(evt, { cardId, card }) {
+function deleteCard(evt, { itemId, item }) {
     evt.preventDefault();
     api
-        .deleteCard(cardId)
+        .deleteCard(itemId)
         .then(() => {
-            card.remove();
-            popupDeleteCard.close();
+            item.deleteCard();
+            PopupDeleteCard.close();
         })
         .catch((err) => {
             console.log(`Ошибка при удалении карточки: ${err}`);
@@ -118,6 +121,7 @@ function deleteCard(evt, { cardId, card }) {
 }
 
 function likeCard(card) {
+    console.log(card);
     api
         .likeCard(card.getCardInfo())
         .then((res) => card.updateLike(res))

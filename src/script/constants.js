@@ -36,6 +36,7 @@ export const validationConfig = {
 
 export const popupEdit = document.querySelector(".popup_edit-profile");
 export const popupAdd = document.querySelector(".popup_add-place");
+export const popupUpdateProfile = document.querySelector(".popup_update-avatar");
 
 const profile = document.querySelector(".profile");
 export const profileEditButton = profile.querySelector(".profile__symbol-edit");

@@ -23,18 +23,18 @@ export class FormValidator {
         errorElement.textContent = '';
     }
 
-    _hasInvalidInput(inputList) {
-        return inputList.some((inputElement) => {
+    _hasInvalidInput() {
+        return this._inputList.some((inputElement) => {
             return !inputElement.validity.valid;
         });
     }
 
-    _toggleButtonState(inputList, buttonElement) {
-        if (this._hasInvalidInput(inputList)) {
-            this._disableButton(buttonElement);
+    _toggleButtonState() {
+        if (this._hasInvalidInput(this._inputList)) {
+            this._disableButton(this._submitButton);
         } else {
-            buttonElement.classList.remove(this._inactiveButtonClass);
-            buttonElement.disabled = false;
+            this._submitButton.classList.remove(this._inactiveButtonClass);
+            this._submitButton.disabled = false;
         }
     }
 
@@ -44,23 +44,23 @@ export class FormValidator {
     }
 
     _setEventListeners() {
-        const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-        const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
-        this._toggleButtonState(inputList, buttonElement);
+        this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+        this._submitButton = this._formElement.querySelector(this._submitButtonSelector);
+        this._toggleButtonState(this._inputList, this._submitButton);
 
         this._formElement.addEventListener('reset', () => {
-            this._disableButton(buttonElement)
+            this._disableButton(this._submitButton)
         });
 
-        inputList.forEach((inputElement) => {
+        this._inputList.forEach((inputElement) => {
             inputElement.addEventListener('input', (e) => {
                 this._checkInputValidity(inputElement);
-                this._toggleButtonState(inputList, buttonElement);
+                this._toggleButtonState(this._inputList, this._submitButton);
             });
         });
     }
 
-        _checkInputValidity(inputElement) {
+    _checkInputValidity(inputElement) {
         if (!inputElement.validity.valid) {
             this._showInputError(inputElement, inputElement.validationMessage);
         } else {
