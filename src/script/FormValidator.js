@@ -1,12 +1,12 @@
 export class FormValidator {
     constructor(selectorsForm, formElement) {
+        this._formElement = formElement;
+        this._inputList = Array.from(this._formElement.querySelectorAll(selectorsForm.inputSelector));
+        this._submitButton = this._formElement.querySelector(selectorsForm.submitButtonSelector);
         this._formSelector = selectorsForm.formSelector;
-        this._inputSelector = selectorsForm.inputSelector;
-        this._submitButtonSelector = selectorsForm.submitButtonSelector;
         this._inactiveButtonClass = selectorsForm.inactiveButtonClass;
         this._inputErrorClass = selectorsForm.inputErrorClass;
         this._errorClass = selectorsForm.errorClass;
-        this._formElement = formElement;
     }
 
     _showInputError(inputElement, errorMessage) {
@@ -38,14 +38,12 @@ export class FormValidator {
         }
     }
 
-    _disableButton(submitButton) {
-        submitButton.classList.add(this._inactiveButtonClass);
-        submitButton.disabled = true;
+    _disableButton() {
+        this._submitButton.classList.add(this._inactiveButtonClass);
+        this._submitButton.disabled = true;
     }
 
     _setEventListeners() {
-        this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-        this._submitButton = this._formElement.querySelector(this._submitButtonSelector);
         this._toggleButtonState(this._inputList, this._submitButton);
 
         this._formElement.addEventListener('reset', () => {

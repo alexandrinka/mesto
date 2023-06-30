@@ -34,8 +34,8 @@ popupEditProfile.setEventListeners();
 const popupUpdateAvatar = new PopupWithForm(".popup_update-avatar", updateAvatarForm);
 popupUpdateAvatar.setEventListeners();
 
-const PopupDeleteCard = new PopupDeleteElement(".popup_delete-card", deleteCard);
-PopupDeleteCard.setEventListeners();
+const popupDeleteCard = new PopupDeleteElement(".popup_delete-card", deleteCard);
+popupDeleteCard.setEventListeners();
 
 const popupImageClass = new PopupWithImage(".popup_image");
 popupImageClass.setEventListeners();
@@ -61,7 +61,7 @@ const cardsContainer = new Section(
 Promise.all([api.getUserInfo(), api.getCards()])
     .then(([userData, cards]) => {
         userInfo.setUserInfo(userData);
-        cardsContainer.renderCard(cards.reverse());
+        cardsContainer.renderItem(cards.reverse());
     })
     .catch((err) =>
         console.log(`Получение данных карточек и пользователя: ${err}`)
@@ -72,7 +72,7 @@ function createCard(item) {
         item,
         "#element-card",
         () => popupImageClass.open(item),
-        (cardId, card) => PopupDeleteCard.open(cardId, card),
+        (cardId, card) => popupDeleteCard.open(cardId, card),
         userInfo.getUserInfo().userId,
         likeCard
     );
@@ -113,7 +113,7 @@ function deleteCard(evt, { itemId, item }) {
         .deleteCard(itemId)
         .then(() => {
             item.deleteCard();
-            PopupDeleteCard.close();
+            popupDeleteCard.close();
         })
         .catch((err) => {
             console.log(`Ошибка при удалении карточки: ${err}`);
